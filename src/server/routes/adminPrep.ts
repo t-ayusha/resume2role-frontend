@@ -10,7 +10,6 @@ import PrepVideo from '../models/prep/Video.js';
 import PrepNote from '../models/prep/Note.js';
 import PrepQuestion from '../models/prep/Question.js';
 import { adminAuth } from '../middleware/adminAuth.js';
-import User from '../models/User'
 
 const router = express.Router();
 
@@ -146,11 +145,5 @@ router.post('/questions',
     }
   }
 );
-
-const user = await User.create({
-   name,
-   email,
-   password
-})
 
 export default router;

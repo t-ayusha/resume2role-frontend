@@ -224,7 +224,7 @@ function InterviewSetupPage() {
                 <span className="text-sm text-gray-300">Upload your Resume</span>
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className={`relative flex flex-col items-center justify-center rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer p-10 min-h-[240px] ${
+                  className={`relative flex flex-col items-center justify-center rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer p-10 min-h-60 ${
                     resume
                       ? 'border-[#C7B8FF] bg-[#C7B8FF]/5'
                       : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'

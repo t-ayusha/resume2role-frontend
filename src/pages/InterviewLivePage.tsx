@@ -226,7 +226,7 @@ function InterviewLivePage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">  
             <div className="rounded-[20px] border border-white/10 bg-white/5 px-6 py-5">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">Your Answer</p>
-              <p className="min-h-[3rem] text-base text-white md:text-lg">{transcript || 'Listening…'}</p>
+              <p className="min-h-12 text-base text-white md:text-lg">{transcript || 'Listening…'}</p>
             </div>
             <div className="rounded-[20px] border border-white/10 bg-white/5 px-6 py-5">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">Session Info</p>

@@ -181,7 +181,7 @@ export default function AddPrepModal({ isOpen, onClose, section }: AddPrepModalP
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       placeholder="Enter description (max 500 chars)"
-                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-white outline-none transition focus:border-[#C7B8FF] focus:ring-2 focus:ring-[#C7B8FF]/35 min-h-[100px]"
+                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-6 py-4 text-sm text-white outline-none transition focus:border-[#C7B8FF] focus:ring-2 focus:ring-[#C7B8FF]/35 min-h-25"
                     />
                   </div>
                 )}
@@ -228,11 +228,11 @@ export default function AddPrepModal({ isOpen, onClose, section }: AddPrepModalP
                     />
                     <label 
                       htmlFor="file-upload"
-                      className="flex flex-col items-center justify-center w-full min-h-[120px] rounded-2xl border-2 border-dashed border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 hover:border-[#C7B8FF]/50 transition group"
+                      className="flex flex-col items-center justify-center w-full min-h-30 rounded-2xl border-2 border-dashed border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 hover:border-[#C7B8FF]/50 transition group"
                     >
                       {file ? (
                         <div className="text-center px-4">
-                          <p className="text-[#C7B8FF] font-medium truncate max-w-[200px]">{file.name}</p>
+                          <p className="text-[#C7B8FF] font-medium truncate max-w-50">{file.name}</p>
                           <p className="text-xs text-gray-500 mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
                         </div>
                       ) : (

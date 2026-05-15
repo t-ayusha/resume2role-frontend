@@ -209,7 +209,7 @@ function DashboardPage() {
             {summary.performance.map((v, i) => (
               <div key={i} className="group relative flex-1">
                 <div 
-                  className="w-full rounded-t-xl bg-gradient-to-t from-[#7A5CFF]/20 to-[#C7B8FF] transition-all duration-300 group-hover:to-[#D9D1FF]" 
+                  className="w-full rounded-t-xl bg-linear-to-t from-[#7A5CFF]/20 to-[#C7B8FF] transition-all duration-300 group-hover:to-[#D9D1FF]" 
                   style={{ height: `${v + 40}px` }} 
                 />
                 <div className="absolute -top-8 left-1/2 -translate-x-1/2 rounded bg-white/10 px-2 py-1 text-[10px] opacity-0 transition-opacity group-hover:opacity-100">
