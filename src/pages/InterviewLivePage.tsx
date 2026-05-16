@@ -77,6 +77,7 @@ function InterviewLivePage() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         streamRef.current = stream
+        console.log('Audio Tracks:', stream.getAudioTracks())
         if (videoRef.current) videoRef.current.srcObject = stream
         setMediaError('')
       } catch {
@@ -137,12 +138,23 @@ function InterviewLivePage() {
     return `${min}:${sec}`
   }, [seconds])
 
-  const handleTranscript = useCallback(({ finalText }: { finalText: string; interimText: string }) => {
-    if (!finalText) return
-    transcriptRef.current = `${transcriptRef.current}${finalText} `
-    setTranscript(transcriptRef.current.trim())
-    setHasSpokenForCurrentQuestion(true)
-  }, [])
+  const handleTranscript = useCallback(
+  ({ finalText, interimText }: { finalText: string; interimText: string }) => {
+
+    const combined = `${finalText} ${interimText}`.trim()
+
+    console.log('Transcript Received:', combined)
+
+    setTranscript(combined)
+
+    transcriptRef.current = combined
+
+    if (combined.length > 0) {
+      setHasSpokenForCurrentQuestion(true)
+    }
+  },
+  []
+)
 
   useSpeechRecognition({ lang: 'en-US', interim: true, continuous: true, enabled: micOn && !submitting, onTranscript: handleTranscript })
 

@@ -9,6 +9,7 @@ type RecognitionType = {
   maxAlternatives: number
   onresult: ((event: any) => void) | null
   onerror: ((event: any) => void) | null
+  onstart: (() => void) | null
   onend: (() => void) | null
   start: () => void
   stop: () => void
@@ -48,11 +49,17 @@ export function useSpeechRecognition({
     const recognition: RecognitionType = new SpeechRecognitionCtor()
     recognition.lang = lang
     recognition.interimResults = interim ?? true
-    recognition.continuous = continuous ?? true
+    // Web Speech API is inconsistent across browsers; continuous improves repeated utterances.
+    // Keep it enabled when caller requests continuous.
+    recognition.continuous = continuous ?? false
     recognition.maxAlternatives = 1
+    recognition.interimResults = interim ?? true
+
+
 
     recognition.onresult = (event: any) => {
       let interimText = ''
+
       for (let i = event.resultIndex; i < event.results.length; i += 1) {
         const res = event.results[i]
         const transcript = res?.[0]?.transcript ?? ''
@@ -68,27 +75,23 @@ export function useSpeechRecognition({
       onTranscript({ finalText, interimText: interimText.trim() })
     }
 
+
     recognition.onerror = () => {
       setStatus('error')
     }
-
+recognition.onstart = () => {
+  console.log('Recognition actually started')
+}
     recognition.onend = () => {
-      // Keep it running while enabled
-      if (enabled) {
-        try {
-          recognition.start()
-          setStatus('listening')
-        } catch {
-          // ignore
-        }
-      }
-    }
+  console.log('Speech recognition ended')
+}
 
     recognitionRef.current = recognition
     finalBufferRef.current = ''
 
     try {
       recognition.start()
+      console.log('Starting speech recognition...')
       setStatus('listening')
     } catch {
       setStatus('error')
