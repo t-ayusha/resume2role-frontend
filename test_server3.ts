@@ -10,15 +10,15 @@ app.use(cors());
 app.use(express.json());
 
 const users = [
-  { id: 'u1', name: 'Ankit', email: 'ankit@prepwise.com', password: 'admin123' }
+  { id: 'u1', name: 'Ankit', email: 'ankit@Resume2Role.com', password: 'admin123' }
 ];
 
 function createToken(user: any) {
-  return `prepwise-token-${user.id}`;
+  return `Resume2Role-token-${user.id}`;
 }
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, service: 'PrepWise API' });
+  res.json({ ok: true, service: 'Resume2Role API' });
 });
 
 app.post('/api/auth/login',
@@ -42,7 +42,7 @@ app.post('/api/auth/login',
 );
 
 const server = app.listen(port, () => {
-  console.log(`PrepWise API running at http://localhost:${port}`);
+  console.log(`Resume2Role API running at http://localhost:${port}`);
 });
 
 server.on('error', (err) => {

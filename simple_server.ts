@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 const users = [
-  { id: 'u1', name: 'Ankit', email: 'ankit@prepwise.com', password: 'admin123' }
+  { id: 'u1', name: 'Ankit', email: 'ankit@Resume2Role.com', password: 'admin123' }
 ];
 
 app.get('/health', (_req, res) => {
@@ -23,7 +23,7 @@ app.post('/login', (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
   return res.json({
-    token: `prepwise-token-${user.id}`,
+    token: `Resume2Role-token-${user.id}`,
     user: { id: user.id, name: user.name, email: user.email },
   });
 });

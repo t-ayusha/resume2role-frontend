@@ -9,9 +9,15 @@ function PublicRoute({
 }: {
   children: ReactElement
 }) {
-  const { isAuthenticated } = useAuth()
+  const {
+    isAuthenticated,
+    isAdmin,
+  } = useAuth()
 
-  if (isAuthenticated) {
+  if (
+    isAuthenticated ||
+    isAdmin
+  ) {
     return (
       <Navigate
         to="/dashboard"

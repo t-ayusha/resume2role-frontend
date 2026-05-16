@@ -11,9 +11,9 @@ function AppFooter() {
       <div className="flex flex-col items-center text-center space-y-6">
         {/* Logo & Moto */}
         <div className="space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight text-white">PrepWise</h2>
+          <h2 className="text-3xl font-bold tracking-tight text-white">Resume2Role</h2>
           <p className="max-w-md text-gray-400 text-sm leading-relaxed">
-            PrepWise is an AI-powered mock interview platform where you will find great tools for 
+            Resume2Role is an AI-powered mock interview platform where you will find great tools for 
             mastering technical interviews. Each session is designed to help you succeed 
             with real-time feedback and detailed insights.
           </p>
@@ -73,7 +73,7 @@ function AppFooter() {
           )}
           
           <p className="text-xs text-gray-500">
-            Design By - <span className="text-gray-400">PrepWise Team</span>
+            Design By - <span className="text-gray-400">Resume2Role Team</span>
           </p>
         </div>
       </div>

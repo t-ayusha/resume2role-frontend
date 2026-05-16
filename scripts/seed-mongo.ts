@@ -7,7 +7,7 @@ import Template from '../src/server/models/Template.js';
 
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/prepwise';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/Resume2Role';
 
 const dummyUsers = [
   {

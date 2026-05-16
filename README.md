@@ -1,4 +1,4 @@
-# PrepWise AI — Mock Interview Platform
+# Resume2Role AI — Mock Interview Platform
 
 AI-powered interview preparation platform with real-time speech recognition, role-specific questions, and detailed performance reports.
 

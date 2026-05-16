@@ -29,7 +29,8 @@ type RecentInterview = {
 }
 
 function DashboardPage() {
-  const navigate = useNavigate()
+  const navigate =
+    useNavigate()
 
   const {
     isAdmin,
@@ -40,13 +41,17 @@ function DashboardPage() {
   const [loading, setLoading] =
     useState(true)
 
-  const [recentInterviews, setRecentInterviews] =
-    useState<
-      RecentInterview[]
-    >([])
+  const [
+    recentInterviews,
+    setRecentInterviews,
+  ] = useState<
+    RecentInterview[]
+  >([])
 
-  const [averageScore, setAverageScore] =
-    useState(0)
+  const [
+    averageScore,
+    setAverageScore,
+  ] = useState(0)
 
   const [lastScore, setLastScore] =
     useState(0)
@@ -56,6 +61,7 @@ function DashboardPage() {
       async () => {
         if (!user?.email) {
           setLoading(false)
+
           return
         }
 
@@ -129,6 +135,16 @@ function DashboardPage() {
               )
             )
 
+          enriched.sort(
+            (a, b) =>
+              new Date(
+                b.createdAt
+              ).getTime() -
+              new Date(
+                a.createdAt
+              ).getTime()
+          )
+
           setRecentInterviews(
             enriched
           )
@@ -158,7 +174,13 @@ function DashboardPage() {
               enriched[0].score
             )
           }
-        } catch {
+        } catch (
+          error
+        ) {
+          console.error(
+            error
+          )
+
           setRecentInterviews(
             []
           )
@@ -176,22 +198,16 @@ function DashboardPage() {
         recentInterviews.length ===
         0
       ) {
-        return [
-          20,
-          35,
-          40,
-          25,
-          50,
-          45,
-          60,
-        ]
+        return [0]
       }
 
       return recentInterviews
         .slice(0, 7)
         .map(
-          (i) => i.score
+          (item) =>
+            item.score
         )
+        .reverse()
     }, [recentInterviews])
 
   if (isAdmin) {
@@ -233,8 +249,7 @@ function DashboardPage() {
             <p className="mt-3 text-sm text-gray-400">
               User dashboard
               integration is now
-              fully backend
-              powered.
+              backend powered.
             </p>
           </GlassCard>
 
@@ -416,20 +431,23 @@ function DashboardPage() {
 
           <div className="flex h-48 items-end gap-3 px-2">
             {performanceData.map(
-              (v, i) => (
+              (value, index) => (
                 <div
-                  key={i}
+                  key={index}
                   className="group relative flex-1"
                 >
                   <div
                     className="w-full rounded-t-xl bg-gradient-to-t from-[#7A5CFF]/20 to-[#C7B8FF] transition-all duration-300 group-hover:to-[#D9D1FF]"
                     style={{
-                      height: `${v + 40}px`,
+                      height: `${Math.max(
+                        value,
+                        8
+                      )}px`,
                     }}
                   />
 
                   <div className="absolute -top-8 left-1/2 -translate-x-1/2 rounded bg-white/10 px-2 py-1 text-[10px] opacity-0 transition-opacity group-hover:opacity-100">
-                    {v}%
+                    {value}%
                   </div>
                 </div>
               )

@@ -210,7 +210,7 @@ const AvatarDisplay = ({ url, className }: { url: string; className?: string }) 
 function ProfilePage() {
   const { user, isAdmin, logout, updateUser } = useAuth()
   const navigate = useNavigate()
-  const storageKey = `prepwise-profile-details-${user?.id ?? 'guest'}`
+  const storageKey = `Resume2Role-profile-details-${user?.id ?? 'guest'}`
   const [details, setDetails] = useState<ProfileDetails>(() => {
     const stored = window.localStorage.getItem(storageKey)
     return stored
@@ -262,7 +262,7 @@ function ProfilePage() {
                 </div>
                 <div className="space-y-1">
                   <p className="text-xl font-bold text-white">{user?.name ?? 'Admin User'}</p>
-                  <p className="text-sm text-white/40">{user?.email ?? 'admin@prepwise.com'}</p>
+                  <p className="text-sm text-white/40">{user?.email ?? 'admin@Resume2Role.com'}</p>
                 </div>
                 <PrimaryButton variant="secondary" className="w-full rounded-2xl" onClick={logout}>
                   Logout
@@ -306,7 +306,7 @@ function ProfilePage() {
                 <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-4 border-[#0B1020] bg-green-500 shadow-lg" />
               </div>
               <div className="space-y-1">
-                <p className="text-xl font-bold text-white">{user?.name ?? 'PrepWise User'}</p>
+                <p className="text-xl font-bold text-white">{user?.name ?? 'Resume2Role User'}</p>
                 <p className="text-sm text-white/40">{user?.email ?? 'No email set'}</p>
               </div>
               <PrimaryButton variant="secondary" className="w-full rounded-2xl" onClick={logout}>

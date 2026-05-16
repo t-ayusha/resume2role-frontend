@@ -34,7 +34,7 @@ export function Sidebar({ onClose, className }: SidebarProps) {
       className
     )}>
       <div className="mb-4 flex items-center justify-between px-2">
-        <p className="text-xl font-semibold tracking-wide text-[#C7B8FF]">PrepWise</p>
+        <p className="text-xl font-semibold tracking-wide text-[#C7B8FF]">Resume2Role</p>
         {onClose && (
           <button 
             onClick={onClose}

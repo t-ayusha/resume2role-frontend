@@ -1,20 +1,31 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
 
 import {
   loginApi,
   signupApi,
-  type User,
   TOKEN_KEY,
+  type User,
 } from '../lib/api'
 
 type AuthContextValue = {
   isAuthenticated: boolean
+
   isAdmin: boolean
+
   adminName: string | null
+
   user: User | null
+
   loading: boolean
 
-  updateUser: (updates: Partial<User>) => void
+  updateUser: (
+    updates: Partial<User>
+  ) => void
 
   login: (
     email: string,
@@ -29,33 +40,62 @@ type AuthContextValue = {
 
   logout: () => void
 
-  adminLogin: (password: string) => boolean
+  adminLogin: (
+    password: string
+  ) => boolean
+
   adminLogout: () => void
 }
 
-const AuthContext = createContext<AuthContextValue | null>(null)
+const AuthContext =
+  createContext<AuthContextValue | null>(
+    null
+  )
 
-const AUTH_KEY = 'prepwise-authenticated'
-const USER_KEY = 'prepwise-user'
-const ADMIN_KEY = 'prepwise-admin'
-const ADMIN_NAME_KEY = 'prepwise-admin-name'
+const USER_KEY =
+  'Resume2Role-user'
 
-function getAdmins(): Record<string, string> {
+const ADMIN_KEY =
+  'Resume2Role-admin'
+
+const ADMIN_NAME_KEY =
+  'Resume2Role-admin-name'
+
+function getAdmins(): Record<
+  string,
+  string
+> {
   try {
-    const raw = import.meta.env.VITE_ADMIN_CODES as string | undefined
+    const raw =
+      import.meta.env
+        .VITE_ADMIN_CODES as
+        | string
+        | undefined
 
     if (raw) {
-      return JSON.parse(raw) as Record<string, string>
+      return JSON.parse(
+        raw
+      ) as Record<
+        string,
+        string
+      >
     }
   } catch {
     // fallback
   }
 
   return {
-    '22bcsj43': 'Ankita',
-    '22bcsi54': 'Priyanka',
-    '22bcti01': 'Ayusha',
-    '22bcsi21': 'Laurina',
+    '22bcsj43':
+      'Ankita',
+
+    '22bcsi54':
+      'Priyanka',
+
+    '22bcti01':
+      'Ayusha',
+
+    '22bcsi21':
+      'Laurina',
   }
 }
 
@@ -64,29 +104,58 @@ export function AuthProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => !!window.localStorage.getItem(TOKEN_KEY)
+  const [
+    isAuthenticated,
+    setIsAuthenticated,
+  ] = useState(() =>
+    !!window.localStorage.getItem(
+      TOKEN_KEY
+    )
   )
 
-  const [isAdmin, setIsAdmin] = useState(
-    () => window.localStorage.getItem(ADMIN_KEY) === 'true'
+  const [
+    isAdmin,
+    setIsAdmin,
+  ] = useState(
+    () =>
+      window.localStorage.getItem(
+        ADMIN_KEY
+      ) === 'true'
   )
 
-  const [adminName, setAdminName] = useState<string | null>(
-    () => window.localStorage.getItem(ADMIN_NAME_KEY)
+  const [
+    adminName,
+    setAdminName,
+  ] = useState<
+    string | null
+  >(() =>
+    window.localStorage.getItem(
+      ADMIN_NAME_KEY
+    )
   )
 
-  const [user, setUser] = useState<User | null>(() => {
-    const stored = window.localStorage.getItem(USER_KEY)
+  const [user, setUser] =
+    useState<User | null>(
+      () => {
+        const stored =
+          window.localStorage.getItem(
+            USER_KEY
+          )
 
-    return stored
-      ? (JSON.parse(stored) as User)
-      : null
-  })
+        return stored
+          ? (JSON.parse(
+              stored
+            ) as User)
+          : null
+      }
+    )
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] =
+    useState(false)
 
-  const updateUser = (updates: Partial<User>) => {
+  const updateUser = (
+    updates: Partial<User>
+  ) => {
     setUser((prev) => {
       if (!prev) return null
 
@@ -97,7 +166,9 @@ export function AuthProvider({
 
       window.localStorage.setItem(
         USER_KEY,
-        JSON.stringify(updated)
+        JSON.stringify(
+          updated
+        )
       )
 
       return updated
@@ -111,7 +182,11 @@ export function AuthProvider({
     setLoading(true)
 
     try {
-      const data = await loginApi(email, password)
+      const data =
+        await loginApi(
+          email,
+          password
+        )
 
       window.localStorage.setItem(
         TOKEN_KEY,
@@ -120,16 +195,16 @@ export function AuthProvider({
 
       window.localStorage.setItem(
         USER_KEY,
-        JSON.stringify(data.user)
-      )
-
-      window.localStorage.setItem(
-        AUTH_KEY,
-        'true'
+        JSON.stringify(
+          data.user
+        )
       )
 
       setUser(data.user)
-      setIsAuthenticated(true)
+
+      setIsAuthenticated(
+        true
+      )
     } finally {
       setLoading(false)
     }
@@ -143,11 +218,12 @@ export function AuthProvider({
     setLoading(true)
 
     try {
-      const data = await signupApi(
-        name,
-        email,
-        password
-      )
+      const data =
+        await signupApi(
+          name,
+          email,
+          password
+        )
 
       window.localStorage.setItem(
         TOKEN_KEY,
@@ -156,40 +232,61 @@ export function AuthProvider({
 
       window.localStorage.setItem(
         USER_KEY,
-        JSON.stringify(data.user)
-      )
-
-      window.localStorage.setItem(
-        AUTH_KEY,
-        'true'
+        JSON.stringify(
+          data.user
+        )
       )
 
       setUser(data.user)
-      setIsAuthenticated(true)
+
+      setIsAuthenticated(
+        true
+      )
     } finally {
       setLoading(false)
     }
   }
 
   const logout = () => {
-    window.localStorage.removeItem(AUTH_KEY)
-    window.localStorage.removeItem(TOKEN_KEY)
-    window.localStorage.removeItem(USER_KEY)
+    window.localStorage.removeItem(
+      TOKEN_KEY
+    )
 
-    window.localStorage.removeItem(ADMIN_KEY)
-    window.localStorage.removeItem(ADMIN_NAME_KEY)
+    window.localStorage.removeItem(
+      USER_KEY
+    )
+
+    window.localStorage.removeItem(
+      ADMIN_KEY
+    )
+
+    window.localStorage.removeItem(
+      ADMIN_NAME_KEY
+    )
+
+    window.localStorage.removeItem(
+      'Resume2Role-interview-session'
+    )
 
     setUser(null)
-    setIsAuthenticated(false)
+
+    setIsAuthenticated(
+      false
+    )
 
     setIsAdmin(false)
+
     setAdminName(null)
   }
 
-  const adminLogin = (password: string) => {
-    const admins = getAdmins()
+  const adminLogin = (
+    password: string
+  ) => {
+    const admins =
+      getAdmins()
 
-    const name = admins[password]
+    const name =
+      admins[password]
 
     if (!name) {
       return false
@@ -206,58 +303,72 @@ export function AuthProvider({
     )
 
     setIsAdmin(true)
+
     setAdminName(name)
 
     return true
   }
 
   const adminLogout = () => {
-    window.localStorage.removeItem(ADMIN_KEY)
+    window.localStorage.removeItem(
+      ADMIN_KEY
+    )
 
     window.localStorage.removeItem(
       ADMIN_NAME_KEY
     )
 
     setIsAdmin(false)
+
     setAdminName(null)
   }
 
-  const value = useMemo<AuthContextValue>(
-    () => ({
-      isAuthenticated,
-      isAdmin,
-      adminName,
-      user,
-      loading,
+  const value =
+    useMemo<AuthContextValue>(
+      () => ({
+        isAuthenticated,
 
-      updateUser,
+        isAdmin,
 
-      login,
-      signup,
+        adminName,
 
-      logout,
+        user,
 
-      adminLogin,
-      adminLogout,
-    }),
-    [
-      isAuthenticated,
-      isAdmin,
-      adminName,
-      user,
-      loading,
-    ]
-  )
+        loading,
+
+        updateUser,
+
+        login,
+
+        signup,
+
+        logout,
+
+        adminLogin,
+
+        adminLogout,
+      }),
+      [
+        isAuthenticated,
+        isAdmin,
+        adminName,
+        user,
+        loading,
+      ]
+    )
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={value}
+    >
       {children}
     </AuthContext.Provider>
   )
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
+  const context =
+    useContext(AuthContext)
 
   if (!context) {
     throw new Error(

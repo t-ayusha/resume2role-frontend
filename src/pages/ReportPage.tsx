@@ -15,20 +15,12 @@ import ScoreBadge from '../components/ScoreBadge'
 
 import {
   getInterviewResultApi,
+  type InterviewResult,
 } from '../lib/api'
 
 import { useAuth } from '../context/AuthContext'
 
 import PageWrapper from '../layout/PageWrapper'
-
-type InterviewResult = {
-  interviewId: string
-  averageScore: number
-  totalQuestions: number
-  strengths: string[]
-  weaknesses: string[]
-  overallFeedback: string
-}
 
 function ReportPage() {
   const navigate = useNavigate()
@@ -64,7 +56,9 @@ function ReportPage() {
             )
 
           setReport(result)
-        } catch {
+        } catch (error) {
+          console.error(error)
+
           setReport(null)
         } finally {
           setLoading(false)
@@ -95,11 +89,6 @@ function ReportPage() {
   const createdAt =
     new Date().toLocaleString()
 
-  const accuracy = Math.min(
-    100,
-    Math.round(score * 10)
-  )
-
   const avatarUrl =
     user?.avatarUrl ||
     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80'
@@ -109,7 +98,7 @@ function ReportPage() {
       <GlassCard className="w-full max-w-4xl space-y-8 p-8 md:p-10">
         <div className="flex items-center justify-between">
           <p className="text-2xl font-semibold tracking-wide text-[#C7B8FF]">
-            PrepWise
+            Resume2Role
           </p>
 
           <img
@@ -120,13 +109,13 @@ function ReportPage() {
         </div>
 
         {loading ? (
-          <div className="flex min-h-[300px] items-center justify-center">
+          <div className="flex min-h-[320px] items-center justify-center">
             <p className="text-gray-300">
               Loading report...
             </p>
           </div>
         ) : !report ? (
-          <div className="flex min-h-[300px] flex-col items-center justify-center gap-5 text-center">
+          <div className="flex min-h-[320px] flex-col items-center justify-center gap-5 text-center">
             <p className="text-lg text-gray-300">
               Report not found.
             </p>
@@ -155,14 +144,6 @@ function ReportPage() {
                   Overall Score:
                   {' '}
                   {score}/10
-                </span>
-
-                <span className="h-1 w-1 rounded-full bg-gray-500" />
-
-                <span>
-                  Accuracy:
-                  {' '}
-                  {accuracy}%
                 </span>
 
                 <span className="h-1 w-1 rounded-full bg-gray-500" />
@@ -216,7 +197,7 @@ function ReportPage() {
                           key={
                             item
                           }
-                          className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-gray-200"
+                          className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm leading-relaxed text-gray-200"
                         >
                           {item}
                         </li>
@@ -254,7 +235,7 @@ function ReportPage() {
                           key={
                             item
                           }
-                          className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm text-gray-200"
+                          className="rounded-2xl border border-white/5 bg-white/5 p-4 text-sm leading-relaxed text-gray-200"
                         >
                           {item}
                         </li>
@@ -278,6 +259,14 @@ function ReportPage() {
               <ScoreBadge
                 score={verdict}
               />
+            </div>
+
+            <div className="rounded-2xl border border-white/5 bg-white/[0.03] px-4 py-3 text-xs text-gray-400">
+              Interview ID:
+              {' '}
+              {
+                report.interviewId
+              }
             </div>
 
             <div className="flex flex-col gap-3 pt-2 sm:flex-row">

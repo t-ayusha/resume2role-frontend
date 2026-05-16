@@ -12,7 +12,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('PrepWise error boundary caught:', error, info)
+    console.error('Resume2Role error boundary caught:', error, info)
   }
 
   render() {

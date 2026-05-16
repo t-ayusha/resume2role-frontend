@@ -127,7 +127,7 @@ function AuthPage({
         >
           <div className="space-y-2 text-center">
             <p className="text-3xl font-bold tracking-tight text-[#C7B8FF]">
-              PrepWise
+              Resume2Role
             </p>
 
             <h2 className="text-lg font-medium text-white/60">

@@ -3,8 +3,8 @@ describe('Admin Preparation Section Add Workflow', () => {
     // Mock login or set auth tokens
     cy.visit('/preparation');
     // Ensure admin is logged in
-    window.localStorage.setItem('prepwise-admin', 'true');
-    window.localStorage.setItem('prepwise-token', 'prepwise-token-admin-1');
+    window.localStorage.setItem('Resume2Role-admin', 'true');
+    window.localStorage.setItem('Resume2Role-token', 'Resume2Role-token-admin-1');
   });
 
   const sections = ['Video', 'Notes', 'Questions'];

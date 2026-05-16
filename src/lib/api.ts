@@ -1,10 +1,10 @@
 const API_URL =
   import.meta.env
     .VITE_API_URL ??
-  'http://localhost:8080/api'
+  'http://localhost:4000/api'
 
 export const TOKEN_KEY =
-  'prepwise-token'
+  'Resume2Role-token'
 
 /* =========================
    TYPES
@@ -110,13 +110,14 @@ async function request<T>(
     ...(init?.headers ?? {}),
   }
 
-  const response = await fetch(
-    `${API_URL}${path}`,
-    {
-      ...init,
-      headers,
-    }
-  )
+  const response =
+    await fetch(
+      `${API_URL}${path}`,
+      {
+        ...init,
+        headers,
+      }
+    )
 
   if (!response.ok) {
     let message =
@@ -249,7 +250,7 @@ export async function uploadResumeApi(
 export async function getResumeApi(
   resumeId: string
 ) {
-  return request(
+  return request<ResumeUploadResponse>(
     `/resumes/${resumeId}`
   )
 }
@@ -257,7 +258,7 @@ export async function getResumeApi(
 export async function deleteResumeApi(
   resumeId: string
 ) {
-  return request(
+  return request<string>(
     `/resumes/${resumeId}`,
     {
       method: 'DELETE',
@@ -297,7 +298,7 @@ export async function submitAnswerApi(
     duration: number
   }
 ) {
-  return request(
+  return request<InterviewStartResponse>(
     `/interview/${interviewId}/answer`,
     {
       method: 'POST',
@@ -312,7 +313,7 @@ export async function submitAnswerApi(
 export async function getInterviewApi(
   interviewId: string
 ) {
-  return request(
+  return request<InterviewStartResponse>(
     `/interview/${interviewId}`
   )
 }
@@ -333,22 +334,4 @@ export async function getUserInterviewsApi(
   >(
     `/interview/user/${userId}`
   )
-}
-
-/* =========================
-   TEMPLATE APIs
-========================= */
-
-export type InterviewTemplate =
-  {
-    id: string
-    title: string
-    description: string
-    role: string
-    type: string
-    icon?: string
-  }
-
-export async function getTemplatesApi() {
-  return []
 }
