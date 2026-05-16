@@ -64,7 +64,7 @@ function TemplatesPage() {
                 <h3 className="mb-3 text-xl font-bold text-white group-hover:text-[#C7B8FF] transition-colors">
                   {template.title}
                 </h3>
-                <p className="mb-6 flex-grow text-sm leading-relaxed text-white/50">
+                <p className="mb-6 grow text-sm leading-relaxed text-white/50">
                   {template.description}
                 </p>
                 <div className="flex items-center justify-between">

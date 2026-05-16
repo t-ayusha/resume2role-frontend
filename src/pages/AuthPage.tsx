@@ -111,7 +111,7 @@ function AuthPage({ initialMode = 'login' }: AuthPageProps) {
 
   return (
     <PageWrapper innerClassName="items-center justify-center px-4 py-8 md:px-8">
-      <GlassCard className="w-full max-w-[500px] p-10">
+      <GlassCard className="w-full max-w-125 p-10">
         <form onSubmit={onSubmit} className="space-y-6">
           <div className="space-y-2 text-center">
             <p className="text-3xl font-bold tracking-tight text-[#C7B8FF]">PrepWise</p>
