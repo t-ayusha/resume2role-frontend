@@ -93,7 +93,7 @@ const validate = (req: Request, res: Response, next: NextFunction) => {
 };
 
 function createToken(user: User) {
-  return `prepwise-token-${user.id}-${Date.now()}`;
+  return `Resume2Role-token-${user.id}-${Date.now()}`;
 }
 
 // Helper: get user from auth header
@@ -101,14 +101,14 @@ function getUserFromToken(req: Request): User | null {
   const auth = req.headers.authorization;
   if (!auth?.startsWith('Bearer ')) return null;
   const token = auth.slice(7);
-  const match = token.match(/^prepwise-token-(u\d+)/)
+  const match = token.match(/^Resume2Role-token-(u\d+)/)
   if (!match) return null;
   return users.find((u) => u.id === match[1]) ?? null;
 }
 
 // Health
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, service: 'PrepWise API', timestamp: new Date().toISOString() });
+  res.json({ ok: true, service: 'Resume2Role API', timestamp: new Date().toISOString() });
 });
 
 // Auth Routes
@@ -139,7 +139,7 @@ app.post('/api/auth/signup',
 );
 
 app.post('/api/auth/google', (req: Request, res: Response) => {
-  const googleEmail = (req.body as { email?: string; name?: string })?.email || 'google.user@prepwise.dev';
+  const googleEmail = (req.body as { email?: string; name?: string })?.email || 'google.user@Resume2Role.dev';
   const googleName = (req.body as { name?: string })?.name || 'Google User';
   let user = users.find((u) => u.email === googleEmail);
   if (!user) {
@@ -267,5 +267,5 @@ app.use((_err: Error, _req: Request, res: Response, _next: NextFunction) => {
 });
 
 app.listen(port, () => {
-  console.log(`PrepWise API running at http://localhost:${port}`);
+  console.log(`Resume2Role API running at http://localhost:${port}`);
 });

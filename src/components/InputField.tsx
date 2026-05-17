@@ -1,20 +1,37 @@
-type InputFieldProps = {
-  label: string
-  placeholder: string
-  type?: string
+import type { HTMLMotionProps } from 'framer-motion'
+import type { PropsWithChildren } from 'react'
+import { cn } from '../lib/utils'
+
+type PrimaryButtonProps = PropsWithChildren<
+  HTMLMotionProps<'button'> & {
+    variant?: 'primary' | 'danger' | 'secondary'
+  }
+>
+
+const variantStyles = {
+  primary: 'bg-[#C7B8FF] text-[#0B1020] hover:bg-[#d6cbff]',
+  danger: 'bg-[#FF5C5C] text-white hover:bg-[#ff7474]',
+  secondary: 'bg-white/10 text-white hover:bg-white/15',
 }
 
-function InputField({ label, placeholder, type = 'text' }: InputFieldProps) {
+function PrimaryButton({
+  children,
+  className = '',
+  variant = 'primary',
+  ...props
+}: PrimaryButtonProps) {
   return (
-    <label className="block space-y-2">
-      <span className="text-sm text-gray-300">{label}</span>
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm text-white outline-none transition focus:border-[#C7B8FF] focus:ring-2 focus:ring-[#C7B8FF]/35"
-      />
-    </label>
+    <button
+      className={cn(
+        'w-full rounded-full px-5 py-3 text-sm font-semibold transition',
+        variantStyles[variant],
+        className
+      )}
+      {...props as any}
+    >
+      {children}
+    </button>
   )
 }
 
-export default InputField
+export default PrimaryButton

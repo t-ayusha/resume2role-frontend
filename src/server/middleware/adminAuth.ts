@@ -4,7 +4,7 @@ export const adminAuth = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(' ')[1];
   
   // Simple token check based on the pattern found in index.ts
-  if (!token || !token.startsWith('prepwise-token-')) {
+  if (!token || !token.startsWith('Resume2Role-token-')) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 

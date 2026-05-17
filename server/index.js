@@ -44,11 +44,11 @@ const interviews = [
 const performance = [30, 45, 20, 58, 35, 48, 62]
 
 function createToken(user) {
-  return `prepwise-token-${user.id}`
+  return `Resume2Role-token-${user.id}`
 }
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, service: 'PrepWise API', timestamp: new Date().toISOString() })
+  res.json({ ok: true, service: 'Resume2Role API', timestamp: new Date().toISOString() })
 })
 
 app.post('/api/auth/login', (req, res) => {
@@ -69,7 +69,7 @@ app.post('/api/auth/signup', (req, res) => {
   if (exists) {
     return res.status(409).json({ message: 'Email already exists' })
   }
-  const user = { id: `u${users.length + 1}`, name: name || 'PrepWise User', email, password }
+  const user = { id: `u${users.length + 1}`, name: name || 'Resume2Role User', email, password }
   users.push(user)
   return res.status(201).json({
     token: createToken(user),
@@ -78,7 +78,7 @@ app.post('/api/auth/signup', (req, res) => {
 })
 
 app.post('/api/auth/google', (req, res) => {
-  const googleEmail = req.body?.email || 'google.user@prepwise.dev'
+  const googleEmail = req.body?.email || 'google.user@Resume2Role.dev'
   const googleName = req.body?.name || 'Google User'
   let user = users.find((item) => item.email === googleEmail)
 
@@ -167,5 +167,5 @@ app.get('/api/interviews/:id', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`PrepWise local API running at http://localhost:${port}`)
+  console.log(`Resume2Role local API running at http://localhost:${port}`)
 })

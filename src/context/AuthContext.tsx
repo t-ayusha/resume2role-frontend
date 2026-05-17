@@ -35,10 +35,10 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-const AUTH_KEY = 'prepwise-authenticated'
-const USER_KEY = 'prepwise-user'
-const ADMIN_KEY = 'prepwise-admin'
-const ADMIN_NAME_KEY = 'prepwise-admin-name'
+const AUTH_KEY = 'Resume2Role-authenticated'
+const USER_KEY = 'Resume2Role-user'
+const ADMIN_KEY = 'Resume2Role-admin'
+const ADMIN_NAME_KEY = 'Resume2Role-admin-name'
 
 function getAdmins(): Record<string, string> {
   try {

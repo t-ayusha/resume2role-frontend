@@ -21,7 +21,7 @@ function LandingPage() {
     <PageWrapper className="items-start" innerClassName="mx-auto max-w-6xl px-4 py-8 md:px-8">
       <div className="w-full space-y-6">
         <nav className="flex items-center justify-between rounded-[20px] border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-xl">
-          <p className="text-2xl font-semibold tracking-wide text-[#C7B8FF]">PrepWise</p>
+          <p className="text-2xl font-semibold tracking-wide text-[#C7B8FF]">Resume2Role</p>
           <div className="flex items-center gap-3">
             
               <>
@@ -48,7 +48,7 @@ function LandingPage() {
             Practice job interviews <br /> with AI confidence
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/60 leading-relaxed">
-            Master your next interview with PrepWise. Get real-time AI feedback, personalized coaching, and data-driven insights to land your dream job.
+            Master your next interview with Resume2Role. Get real-time AI feedback, personalized coaching, and data-driven insights to land your dream job.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <PrimaryButton className="w-full sm:w-auto px-10 py-4 text-lg" onClick={onStart}>
@@ -110,7 +110,7 @@ function LandingPage() {
         <div className="grid gap-6 md:grid-cols-2">
           <GlassCard className="flex flex-col justify-between">
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold">Why choose PrepWise?</h3>
+              <h3 className="text-2xl font-bold">Why choose Resume2Role?</h3>
               <ul className="space-y-4">
                 {[
                   'Real-time behavioral & technical feedback',
@@ -129,7 +129,7 @@ function LandingPage() {
             </div>
             <div className="mt-8 p-6 rounded-2xl bg-white/5 border border-white/10">
               <p className="italic text-sm text-white/60">
-                "PrepWise helped me structure my answers and improve my confidence in just a week. I felt completely prepared for my senior role interview."
+                "Resume2Role helped me structure my answers and improve my confidence in just a week. I felt completely prepared for my senior role interview."
               </p>
               <div className="mt-4 flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-linear-to-br from-[#7A5CFF] to-[#C7B8FF]" />

@@ -20,7 +20,7 @@ export function DashboardLayout({ children }: PropsWithChildren) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-          <p className="text-xl font-semibold tracking-wide text-[#C7B8FF]">PrepWise</p>
+          <p className="text-xl font-semibold tracking-wide text-[#C7B8FF]">Resume2Role</p>
         </div>
       </header>
 

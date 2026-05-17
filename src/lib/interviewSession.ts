@@ -1,5 +1,5 @@
 export const INTERVIEW_SESSION_KEY =
-  'prepwise-interview-session'
+  'Resume2Role-interview-session'
 
 export type StoredInterviewSession =
   {

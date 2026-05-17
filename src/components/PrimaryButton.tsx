@@ -1,33 +1,41 @@
-import type { HTMLMotionProps } from 'framer-motion'
-import type { PropsWithChildren } from 'react'
-import { cn } from '../lib/utils'
+import type {
+  ButtonHTMLAttributes,
+  ReactNode,
+} from 'react'
 
-type PrimaryButtonProps = PropsWithChildren<
-  HTMLMotionProps<'button'> & {
-    variant?: 'primary' | 'danger' | 'secondary'
+type Variant =
+  | 'primary'
+  | 'secondary'
+  | 'danger'
+
+type Props =
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    children: ReactNode
+    variant?: Variant
   }
->
-
-const variantStyles = {
-  primary: 'bg-[#C7B8FF] text-[#0B1020] hover:bg-[#d6cbff]',
-  danger: 'bg-[#FF5C5C] text-white hover:bg-[#ff7474]',
-  secondary: 'bg-white/10 text-white hover:bg-white/15',
-}
 
 function PrimaryButton({
   children,
   className = '',
   variant = 'primary',
   ...props
-}: PrimaryButtonProps) {
+}: Props) {
+
+  const variants = {
+    primary:
+      'bg-[#7C3AED] hover:bg-[#6D28D9] text-white',
+
+    secondary:
+      'bg-[#C7B8FF] hover:bg-[#B8A5FF] text-[#0B1020]',
+
+    danger:
+      'bg-red-500 hover:bg-red-600 text-white',
+  }
+
   return (
     <button
-      className={cn(
-        'w-full rounded-full px-5 py-3 text-sm font-semibold transition',
-        variantStyles[variant],
-        className
-      )}
-      {...props as any}
+      {...props}
+      className={`rounded-xl px-5 py-3 font-medium transition-all duration-200 ${variants[variant]} ${className}`}
     >
       {children}
     </button>
