@@ -13,7 +13,7 @@ function AvatarCard({ name, subtitle, imageUrl, pulse = false }: AvatarCardProps
       <motion.div
         animate={pulse ? { scale: [1, 1.06, 1] } : undefined}
         transition={pulse ? { duration: 1.8, repeat: Infinity } : undefined}
-        className="relative mb-4 h-28 w-28 rounded-full border border-white/20 bg-gradient-to-br from-[#C7B8FF] to-[#7A5CFF] p-[3px]"
+        className="relative mb-4 h-28 w-28 rounded-full border border-white/20 bg-linear-to-br from-[#C7B8FF] to-[#7A5CFF] p-0.75"
       >
         <div className="h-full w-full rounded-full bg-[#0e1427] p-1">
           {imageUrl ? (

@@ -228,9 +228,11 @@ function InterviewSetupPage() {
             uploadedResume.id
           )
 
-        const firstQuestion =
-          interview.questions?.[0] ||
-          'Tell me about yourself.'
+        const questions =
+          interview.questions?.filter(
+            (q: string) =>
+              q?.trim()?.length > 0
+          ) || []
 
         const session = {
           interviewId:
@@ -249,8 +251,13 @@ function InterviewSetupPage() {
 
           type: 'Technical',
 
+          questions,
+
+          questionIndex: 0,
+
           currentQuestion:
-            firstQuestion,
+            questions[0] ||
+            'Tell me about yourself.',
 
           resumeName:
             resume.name,

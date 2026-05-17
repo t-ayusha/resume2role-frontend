@@ -72,7 +72,7 @@ function ProfileEditModal({ isOpen, onClose, initialDetails, initialAvatar, onSa
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg overflow-hidden rounded-[32px] border border-white/10 bg-[#0B1020]/90 p-8 shadow-2xl backdrop-blur-xl"
+            className="relative w-full max-w-lg overflow-hidden rounded-4xl border border-white/10 bg-[#0B1020]/90 p-8 shadow-2xl backdrop-blur-xl"
           >
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-white">Edit Profile</h2>

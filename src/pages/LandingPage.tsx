@@ -44,7 +44,7 @@ function LandingPage() {
         </nav>
 
         <GlassCard className="text-center py-16">
-          <h1 className="text-5xl font-bold md:text-6xl bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-5xl font-bold md:text-6xl bg-linear-to-r from-white to-white/60 bg-clip-text text-transparent leading-tight">
             Practice job interviews <br /> with AI confidence
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/60 leading-relaxed">
@@ -132,7 +132,7 @@ function LandingPage() {
                 "Resume2Role helped me structure my answers and improve my confidence in just a week. I felt completely prepared for my senior role interview."
               </p>
               <div className="mt-4 flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#7A5CFF] to-[#C7B8FF]" />
+                <div className="h-8 w-8 rounded-full bg-linear-to-br from-[#7A5CFF] to-[#C7B8FF]" />
                 <div>
                   <p className="text-xs font-bold">Sarah Jenkins</p>
                   <p className="text-[10px] text-white/30">Frontend Lead @ TechFlow</p>

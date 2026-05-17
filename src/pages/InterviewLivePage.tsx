@@ -17,7 +17,6 @@ import TranscriptBar from '../components/TranscriptBar'
 
 import {
   getInterviewResultApi,
-  getNextQuestionApi,
   submitAnswerApi,
 } from '../lib/api'
 
@@ -27,8 +26,6 @@ import {
   saveInterviewSession,
 } from '../lib/interviewSession'
 
-import { speakText } from '../lib/textToSpeech'
-
 import { useSpeechRecognition } from '../lib/useSpeechRecognition'
 
 import { useAuth } from '../context/AuthContext'
@@ -36,6 +33,7 @@ import { useAuth } from '../context/AuthContext'
 import PageWrapper from '../layout/PageWrapper'
 
 function cleanQuestion(text: string) {
+
   if (!text) return ''
 
   return text
@@ -44,16 +42,11 @@ function cleanQuestion(text: string) {
     .replace(/\r/g, ' ')
     .replace(/\s+/g, ' ')
     .replace(/^\d+\.\s*/g, '')
-    .replace(/nHow/g, ' How')
-    .replace(/nCan/g, ' Can')
-    .replace(/nWhy/g, ' Why')
-    .replace(/nWhat/g, ' What')
-    .replace(/nExplain/g, ' Explain')
-    .replace(/nTell/g, ' Tell')
     .trim()
 }
 
 function InterviewLivePage() {
+
   const navigate = useNavigate()
 
   const location = useLocation()
@@ -67,10 +60,17 @@ function InterviewLivePage() {
       role?: string
       type?: string
       currentQuestion?: string
+      questions?: string[]
+      questionIndex?: number
     }) || {}
 
   const storedSession =
     getInterviewSession()
+
+  const questions =
+    navigationState.questions ||
+    storedSession?.questions ||
+    []
 
   const interviewId =
     navigationState.interviewId ||
@@ -104,10 +104,14 @@ function InterviewLivePage() {
     )
 
   const transcriptRef =
-    useRef<string>('')
+    useRef('')
 
   const [questionIndex, setQuestionIndex] =
-    useState(1)
+    useState(
+      navigationState.questionIndex ||
+      storedSession?.questionIndex ||
+      0
+    )
 
   const [currentQuestion, setCurrentQuestion] =
     useState(
@@ -136,36 +140,47 @@ function InterviewLivePage() {
     useState(false)
 
   useEffect(() => {
+
     if (!interviewId) return
 
     saveInterviewSession({
       interviewId,
       role,
       type,
+      questions,
+      questionIndex,
       currentQuestion,
       resumeName,
     })
+
   }, [
     interviewId,
     role,
     type,
+    questions,
+    questionIndex,
     currentQuestion,
     resumeName,
   ])
 
   useEffect(() => {
+
     const timer =
       window.setInterval(() => {
+
         setSeconds(
           (prev) => prev + 1
         )
+
       }, 1000)
 
     return () =>
       window.clearInterval(timer)
+
   }, [])
 
   useEffect(() => {
+
     if (!currentQuestion) return
 
     transcriptRef.current = ''
@@ -173,23 +188,42 @@ function InterviewLivePage() {
 
     window.speechSynthesis.cancel()
 
-    void speakText(
-      cleanQuestion(currentQuestion)
+    const utterance =
+      new SpeechSynthesisUtterance(
+        cleanQuestion(currentQuestion)
+      )
+
+    utterance.onstart = () => {
+      setMicOn(false)
+    }
+
+    utterance.onend = () => {
+      setMicOn(true)
+    }
+
+    window.speechSynthesis.speak(
+      utterance
     )
+
   }, [currentQuestion])
 
   useEffect(() => {
+
+    let isMounted = true
+
     const setupMedia = async () => {
+
       try {
+
         setMediaError('')
 
         const stream =
           await navigator.mediaDevices.getUserMedia({
-            video: {
-              facingMode: 'user',
-            },
+            video: true,
             audio: true,
           })
+
+        if (!isMounted) return
 
         streamRef.current = stream
 
@@ -197,58 +231,55 @@ function InterviewLivePage() {
           videoRef.current
 
         if (video) {
+
           video.srcObject = stream
 
           video.muted = true
 
-          video.onloadedmetadata =
-            async () => {
-              try {
-                await video.play()
-              } catch (err) {
-                console.error(
-                  'Video play error:',
-                  err
-                )
-              }
-            }
-        }
-      } catch (error) {
-        console.error(error)
+          video.autoplay = true
 
-        if (
-          error instanceof DOMException
-        ) {
-          if (
-            error.name ===
-            'NotAllowedError'
-          ) {
-            setMediaError(
-              'Camera/microphone permission denied.'
+          video.playsInline = true
+
+          try {
+
+            await video.play()
+
+            console.log(
+              'Video started'
             )
-          } else if (
-            error.name ===
-            'NotFoundError'
-          ) {
-            setMediaError(
-              'Camera device not found.'
+
+          } catch (playError) {
+
+            console.error(
+              'Video play failed:',
+              playError
             )
-          } else {
+
             setMediaError(
-              error.message
+              'Unable to start webcam preview.'
             )
           }
-        } else {
-          setMediaError(
-            'Failed to access camera.'
-          )
         }
+
+      } catch (error) {
+
+        console.error(
+          'Media setup failed:',
+          error
+        )
+
+        setMediaError(
+          'Failed to access camera/microphone.'
+        )
       }
     }
 
     void setupMedia()
 
     return () => {
+
+      isMounted = false
+
       window.speechSynthesis.cancel()
 
       streamRef.current
@@ -257,27 +288,36 @@ function InterviewLivePage() {
           track.stop()
         )
     }
+
   }, [])
 
   useEffect(() => {
+
     streamRef.current
       ?.getAudioTracks()
       .forEach((track) => {
+
         track.enabled = micOn
+
       })
+
   }, [micOn])
 
   useEffect(() => {
+
     streamRef.current
       ?.getVideoTracks()
       .forEach((track) => {
-        track.enabled =
-          cameraOn
+
+        track.enabled = cameraOn
+
       })
+
   }, [cameraOn])
 
   const formattedTime =
     useMemo(() => {
+
       const min = String(
         Math.floor(seconds / 60)
       ).padStart(2, '0')
@@ -287,6 +327,7 @@ function InterviewLivePage() {
       ).padStart(2, '0')
 
       return `${min}:${sec}`
+
     }, [seconds])
 
   const handleTranscript =
@@ -298,6 +339,7 @@ function InterviewLivePage() {
         finalText: string
         interimText: string
       }) => {
+
         const combined =
           `${finalText} ${interimText}`.trim()
 
@@ -305,6 +347,7 @@ function InterviewLivePage() {
           combined
 
         setTranscript(combined)
+
       },
       []
     )
@@ -312,7 +355,7 @@ function InterviewLivePage() {
   useSpeechRecognition({
     lang: 'en-US',
     interim: true,
-    continuous: true,
+    continuous: false,
     enabled:
       micOn &&
       !submitting,
@@ -322,6 +365,7 @@ function InterviewLivePage() {
 
   const handleNextQuestion =
     async () => {
+
       if (
         !interviewId ||
         loadingNext
@@ -330,6 +374,7 @@ function InterviewLivePage() {
       }
 
       try {
+
         setLoadingNext(true)
 
         window.speechSynthesis.cancel()
@@ -339,37 +384,38 @@ function InterviewLivePage() {
           {
             answer:
               transcriptRef.current.trim(),
+
             transcript:
               transcriptRef.current.trim(),
+
             duration:
               seconds,
           }
         )
 
+        const nextIndex =
+          questionIndex + 1
+
+        if (
+          nextIndex >=
+          questions.length
+        ) {
+
+          await onEndInterview()
+
+          return
+        }
+
         const nextQuestion =
-          await getNextQuestionApi(
-            interviewId
-          )
+          questions[nextIndex]
 
         const cleanedQuestion =
           cleanQuestion(
             nextQuestion
           )
 
-        if (
-          cleanedQuestion
-            .toLowerCase()
-            .includes(
-              'interview completed'
-            )
-        ) {
-          await onEndInterview()
-
-          return
-        }
-
         setQuestionIndex(
-          (prev) => prev + 1
+          nextIndex
         )
 
         setCurrentQuestion(
@@ -377,26 +423,36 @@ function InterviewLivePage() {
         )
 
         transcriptRef.current = ''
+
         setTranscript('')
+
         setSeconds(0)
 
         saveInterviewSession({
           interviewId,
           role,
           type,
+          questions,
+          questionIndex:
+            nextIndex,
           currentQuestion:
             cleanedQuestion,
           resumeName,
         })
+
       } catch (error) {
+
         console.error(error)
+
       } finally {
+
         setLoadingNext(false)
       }
     }
 
   const onEndInterview =
     async () => {
+
       if (
         submitting ||
         !interviewId
@@ -407,6 +463,7 @@ function InterviewLivePage() {
       setSubmitting(true)
 
       try {
+
         window.speechSynthesis.cancel()
 
         streamRef.current
@@ -430,13 +487,17 @@ function InterviewLivePage() {
             },
           }
         )
+
       } catch (error) {
+
         console.error(error)
 
         navigate(
           '/interview/report'
         )
+
       } finally {
+
         setSubmitting(false)
       }
     }
@@ -451,12 +512,15 @@ function InterviewLivePage() {
       innerClassName="mx-auto max-w-6xl px-4 py-8 md:px-8"
     >
       <div className="w-full space-y-6">
+
         <div className="flex items-center justify-between">
+
           <p className="text-2xl font-semibold tracking-wide text-[#C7B8FF]">
             Resume2Role
           </p>
 
           <div className="flex items-center gap-3">
+
             {resumeName && (
               <span className="hidden rounded-full border border-[#C7B8FF]/20 bg-[#C7B8FF]/10 px-3 py-1 text-xs text-[#C7B8FF] md:block">
                 AI analyzing: {resumeName}
@@ -468,11 +532,14 @@ function InterviewLivePage() {
               alt="User avatar"
               className="h-10 w-10 rounded-full border border-white/20 object-cover"
             />
+
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-black">
+
             <video
               ref={videoRef}
               autoPlay
@@ -484,20 +551,26 @@ function InterviewLivePage() {
             <div className="border-t border-white/10 bg-white/5 p-4 text-center font-semibold">
               You
             </div>
+
           </div>
 
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6">
+
             <TranscriptBar
               question={
                 currentQuestion
               }
             />
+
           </div>
         </div>
 
         <GlassCard className="space-y-5">
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+
             <div className="rounded-[20px] border border-white/10 bg-white/5 px-6 py-5">
+
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">
                 Your Answer
               </p>
@@ -506,17 +579,20 @@ function InterviewLivePage() {
                 {transcript ||
                   'Listening…'}
               </p>
+
             </div>
 
             <div className="rounded-[20px] border border-white/10 bg-white/5 px-6 py-5">
+
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400">
                 Session Info
               </p>
 
               <div className="space-y-1 text-sm text-gray-300">
+
                 <p>
                   Question:{' '}
-                  {questionIndex}
+                  {questionIndex + 1}
                 </p>
 
                 <p>
@@ -547,6 +623,7 @@ function InterviewLivePage() {
                     ? '📷 Camera on'
                     : '📷 Camera off'}
                 </p>
+
               </div>
             </div>
           </div>
@@ -558,6 +635,7 @@ function InterviewLivePage() {
           )}
 
           <div className="flex flex-wrap gap-3">
+
             <PrimaryButton
               variant="secondary"
               className="w-auto"
@@ -589,6 +667,7 @@ function InterviewLivePage() {
                 ? 'Ending…'
                 : 'Finish Interview'}
             </PrimaryButton>
+
           </div>
         </GlassCard>
       </div>

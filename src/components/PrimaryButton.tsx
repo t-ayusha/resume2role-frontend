@@ -1,8 +1,6 @@
-import { motion } from 'framer-motion'
 import type { HTMLMotionProps } from 'framer-motion'
 import type { PropsWithChildren } from 'react'
 import { cn } from '../lib/utils'
-import { useReducedMotion } from '../hooks/useReducedMotion'
 
 type PrimaryButtonProps = PropsWithChildren<
   HTMLMotionProps<'button'> & {

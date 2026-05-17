@@ -45,7 +45,7 @@ export function DashboardLayout({ children }: PropsWithChildren) {
                   animate={{ x: 0 }}
                   exit={{ x: '-100%' }}
                   transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                  className="fixed inset-y-0 left-0 z-50 w-full max-w-[280px] p-4 lg:hidden"
+                  className="fixed inset-y-0 left-0 z-50 w-full max-w-70 p-4 lg:hidden"
                 >
                   <Sidebar 
                     onClose={() => setIsSidebarOpen(false)} 
