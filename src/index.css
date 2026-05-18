@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: Inter, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+:root {
+  --text: #ffffff;
+  --bg: linear-gradient(145deg, #0b1020, #05070f);
+  --overlay-dot: rgba(199,184,255,0.2);
+  --overlay-grid: rgba(255,255,255,0.03);
+}
+
+html[data-theme='light'] {
+  --text: #0b1020;
+  --bg: linear-gradient(145deg, #f5f7ff, #ffffff);
+  --overlay-dot: rgba(122,92,255,0.12);
+  --overlay-grid: rgba(11,16,32,0.04);
+}
+
