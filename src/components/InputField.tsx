@@ -9,9 +9,25 @@ type PrimaryButtonProps = PropsWithChildren<
 >
 
 const variantStyles = {
-  primary: 'bg-[#C7B8FF] text-[#0B1020] hover:bg-[#d6cbff]',
-  danger: 'bg-[#FF5C5C] text-white hover:bg-[#ff7474]',
-  secondary: 'bg-white/10 text-white hover:bg-white/15',
+  primary: `
+    bg-[#C7B8FF]
+    text-[#0B1020]
+    hover:bg-[#d6cbff]
+  `,
+
+  danger: `
+    bg-[#FF5C5C]
+    text-white
+    hover:bg-[#ff7474]
+  `,
+
+  secondary: `
+    bg-[var(--card-bg)]
+    text-[color:var(--text-primary)]
+    border
+    border-[var(--card-border)]
+    hover:bg-[var(--card-hover)]
+  `,
 }
 
 function PrimaryButton({
@@ -23,11 +39,20 @@ function PrimaryButton({
   return (
     <button
       className={cn(
-        'w-full rounded-full px-5 py-3 text-sm font-semibold transition',
+        `
+        w-full
+        rounded-full
+        px-5
+        py-3
+        text-sm
+        font-semibold
+        transition
+        duration-200
+        `,
         variantStyles[variant],
         className
       )}
-      {...props as any}
+      {...(props as any)}
     >
       {children}
     </button>

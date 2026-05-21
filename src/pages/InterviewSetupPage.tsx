@@ -172,94 +172,98 @@ function InterviewSetupPage() {
   }
 
   const onResumeSubmit =
-  async () => {
-    if (!resume || !user?.email) {
-      setMessage(
-        'Please upload a resume first.'
-      )
-
-      return
-    }
-
-    try {
-      setUploading(true)
-
-      setMessage(
-        'Uploading and analyzing resume...'
-      )
-
-      const uploadedResume =
-        await uploadResumeApi(
-          user.email,
-          resume
+    async () => {
+      if (
+        !resume ||
+        !user?.email
+      ) {
+        setMessage(
+          'Please upload a resume first.'
         )
 
-      setMessage(
-        'Generating interview questions...'
-      )
-
-      const interview =
-        await startInterviewApi(
-          uploadedResume.id
-        )
-
-      const session = {
-        interviewId:
-          interview.id,
-
-        resumeId:
-          uploadedResume.id,
-
-        role:
-          uploadedResume
-            .technicalProfile
-            ?.predictedRole ||
-          role,
-
-        type: 'Technical',
-
-        questions:
-          interview.questions,
-
-        currentQuestion:
-          interview.questions?.[0],
-
-        questionIndex: 0,
-
-        resumeName:
-          resume.name,
+        return
       }
 
-      saveInterviewSession(
-        session
-      )
+      try {
+        setUploading(true)
 
-      navigate(
-        '/interview/live',
-        {
-          state: session,
+        setMessage(
+          'Uploading and analyzing resume...'
+        )
+
+        const uploadedResume =
+          await uploadResumeApi(
+            user.email,
+            resume
+          )
+
+        setMessage(
+          'Generating interview questions...'
+        )
+
+        const interview =
+          await startInterviewApi(
+            uploadedResume.id
+          )
+
+        const session = {
+          interviewId:
+            interview.id,
+
+          resumeId:
+            uploadedResume.id,
+
+          role:
+            uploadedResume
+              .technicalProfile
+              ?.predictedRole ||
+            role,
+
+          type: 'Technical',
+
+          questions:
+            interview.questions,
+
+          currentQuestion:
+            interview.questions?.[0],
+
+          questionIndex: 0,
+
+          resumeName:
+            resume.name,
         }
-      )
-    } catch (error) {
-      setMessage(
-        error instanceof Error
-          ? error.message
-          : 'Resume upload failed'
-      )
-    } finally {
-      setUploading(false)
+
+        saveInterviewSession(
+          session
+        )
+
+        navigate(
+          '/interview/live',
+          {
+            state: session,
+          }
+        )
+      } catch (error) {
+        setMessage(
+          error instanceof Error
+            ? error.message
+            : 'Resume upload failed'
+        )
+      } finally {
+        setUploading(false)
+      }
     }
-  }
 
   return (
     <DashboardLayout>
       <section className="space-y-8">
+
         <div className="space-y-2">
-          <h1 className="text-3xl font-semibold">
+          <h1 className="text-3xl font-semibold text-[color:var(--text-primary)]">
             Interview Setup
           </h1>
 
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-[color:var(--text-secondary)]">
             Choose how you want
             to be interviewed
             today.
@@ -267,22 +271,24 @@ function InterviewSetupPage() {
         </div>
 
         {message ? (
-          <div className="rounded-2xl border border-[#C7B8FF]/20 bg-[#C7B8FF]/10 p-4 text-sm text-[#E6DEFF]">
+          <div className="rounded-2xl border border-[#C7B8FF]/20 bg-[#C7B8FF]/10 p-4 text-sm text-[color:var(--text-primary)]">
             {message}
           </div>
         ) : null}
 
         <div className="grid gap-8 lg:grid-cols-2">
+
           {/* Standard Interview */}
 
           <GlassCard className="flex h-full flex-col space-y-6 p-8">
+
             <div className="space-y-1">
-              <h2 className="text-xl font-semibold text-[#C7B8FF]">
+              <h2 className="text-xl font-semibold text-[#7C3AED]">
                 Standard MOC
                 Interview
               </h2>
 
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[color:var(--text-secondary)]">
                 Practice with
                 industry-standard
                 questions.
@@ -293,16 +299,21 @@ function InterviewSetupPage() {
               onSubmit={onSubmit}
               className="flex flex-1 flex-col space-y-6"
             >
+
               <div className="space-y-6">
+
+                {/* Role */}
+
                 <div
                   className="space-y-2"
                   ref={roleRef}
                 >
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-[color:var(--text-secondary)]">
                     Target Role
                   </span>
 
                   <div className="relative">
+
                     <button
                       type="button"
                       onClick={() =>
@@ -310,7 +321,7 @@ function InterviewSetupPage() {
                           !isRoleOpen
                         )
                       }
-                      className="flex w-full items-center justify-between rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm text-white outline-none transition-all hover:bg-white/10 focus:border-[#C7B8FF] focus:ring-2 focus:ring-[#C7B8FF]/35"
+                      className="flex w-full items-center justify-between rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] px-6 py-3 text-sm text-[color:var(--text-primary)] outline-none transition-all hover:bg-[var(--card-hover)] focus:border-[#C7B8FF] focus:ring-2 focus:ring-[#C7B8FF]/35"
                     >
                       <span>{role}</span>
 
@@ -321,7 +332,7 @@ function InterviewSetupPage() {
                               ? 180
                               : 0,
                         }}
-                        className="text-gray-400"
+                        className="text-[color:var(--text-secondary)]"
                       >
                         <svg
                           className="h-4 w-4"
@@ -357,7 +368,7 @@ function InterviewSetupPage() {
                             y: 10,
                             scale: 0.95,
                           }}
-                          className="absolute z-50 w-full overflow-hidden rounded-3xl border border-white/15 bg-[#1A1F2E]/95 backdrop-blur-xl shadow-2xl"
+                          className="absolute z-50 w-full overflow-hidden rounded-3xl border border-[var(--card-border)] bg-[var(--bg-secondary)] backdrop-blur-xl shadow-2xl"
                         >
                           <div className="py-2">
                             {ROLES.map(
@@ -377,8 +388,8 @@ function InterviewSetupPage() {
                                   className={`flex w-full items-center px-6 py-3 text-sm transition-colors hover:bg-[#C7B8FF]/10 ${
                                     role ===
                                     r
-                                      ? 'bg-[#C7B8FF]/5 text-[#C7B8FF]'
-                                      : 'text-gray-300'
+                                      ? 'bg-[#C7B8FF]/5 text-[#7C3AED]'
+                                      : 'text-[color:var(--text-secondary)]'
                                   }`}
                                 >
                                   {r}
@@ -387,7 +398,7 @@ function InterviewSetupPage() {
                                     r && (
                                     <motion.span
                                       layoutId="active-role"
-                                      className="ml-auto text-[#C7B8FF]"
+                                      className="ml-auto text-[#7C3AED]"
                                     >
                                       ✓
                                     </motion.span>
@@ -402,12 +413,15 @@ function InterviewSetupPage() {
                   </div>
                 </div>
 
+                {/* Interview Type */}
+
                 <div className="space-y-3">
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-[color:var(--text-secondary)]">
                     Interview type
                   </span>
 
-                  <div className="relative flex gap-2 rounded-full border border-white/10 bg-white/5 p-1">
+                  <div className="relative flex gap-2 rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] p-1">
+
                     {[
                       'Technical',
                       'Behavioral',
@@ -425,7 +439,7 @@ function InterviewSetupPage() {
                             type ===
                             card
                               ? 'text-[#0B1020]'
-                              : 'text-gray-400'
+                              : 'text-[color:var(--text-secondary)]'
                           }
                         >
                           {card}
@@ -448,12 +462,15 @@ function InterviewSetupPage() {
                   </div>
                 </div>
 
+                {/* Difficulty */}
+
                 <div className="space-y-3">
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-[color:var(--text-secondary)]">
                     Difficulty
                   </span>
 
-                  <div className="relative flex gap-2 rounded-full border border-white/10 bg-white/5 p-1">
+                  <div className="relative flex gap-2 rounded-full border border-[var(--card-border)] bg-[var(--card-bg)] p-1">
+
                     {[
                       'Beginner',
                       'Intermediate',
@@ -474,7 +491,7 @@ function InterviewSetupPage() {
                             difficulty ===
                             level
                               ? 'text-[#0B1020]'
-                              : 'text-gray-400'
+                              : 'text-[color:var(--text-secondary)]'
                           }
                         >
                           {level}
@@ -496,6 +513,7 @@ function InterviewSetupPage() {
                     ))}
                   </div>
                 </div>
+
               </div>
 
               <div className="mt-auto pt-4">
@@ -507,19 +525,21 @@ function InterviewSetupPage() {
                   Interview
                 </PrimaryButton>
               </div>
+
             </form>
           </GlassCard>
 
           {/* Resume Interview */}
 
           <GlassCard className="flex h-full flex-col space-y-6 p-8">
+
             <div className="space-y-1">
-              <h2 className="text-xl font-semibold text-[#C7B8FF]">
+              <h2 className="text-xl font-semibold text-[#7C3AED]">
                 Resume Based
                 Interview
               </h2>
 
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[color:var(--text-secondary)]">
                 Get interviewed
                 based on your own
                 experience.
@@ -527,8 +547,10 @@ function InterviewSetupPage() {
             </div>
 
             <div className="flex flex-1 flex-col space-y-6">
+
               <div className="space-y-3">
-                <span className="text-sm text-gray-300">
+
+                <span className="text-sm text-[color:var(--text-secondary)]">
                   Upload your
                   Resume
                 </span>
@@ -540,9 +562,10 @@ function InterviewSetupPage() {
                   className={`relative flex min-h-[240px] cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed p-10 transition-all duration-300 ${
                     resume
                       ? 'border-[#C7B8FF] bg-[#C7B8FF]/5'
-                      : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
+                      : 'border-[var(--card-border)] bg-[var(--card-bg)] hover:border-[#C7B8FF]/40 hover:bg-[var(--card-hover)]'
                   }`}
                 >
+
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -554,11 +577,12 @@ function InterviewSetupPage() {
                   />
 
                   <div className="flex flex-col items-center space-y-4 text-center">
+
                     <div
                       className={`rounded-2xl p-4 ${
                         resume
                           ? 'bg-[#C7B8FF] text-[#0B1020]'
-                          : 'bg-white/5 text-gray-400'
+                          : 'bg-[var(--card-bg)] text-[color:var(--text-secondary)]'
                       }`}
                     >
                       {resume ? (
@@ -593,11 +617,12 @@ function InterviewSetupPage() {
                     </div>
 
                     <div>
+
                       <p
                         className={`text-base font-medium ${
                           resume
-                            ? 'text-white'
-                            : 'text-gray-300'
+                            ? 'text-[color:var(--text-primary)]'
+                            : 'text-[color:var(--text-primary)]'
                         }`}
                       >
                         {resume
@@ -605,12 +630,14 @@ function InterviewSetupPage() {
                           : 'Click to upload your resume'}
                       </p>
 
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-[color:var(--text-muted)]">
                         PDF, DOC,
                         or DOCX up
                         to 10MB
                       </p>
+
                     </div>
+
                   </div>
 
                   {resume && (
@@ -622,7 +649,7 @@ function InterviewSetupPage() {
                           null
                         )
                       }}
-                      className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-gray-400 transition-all hover:bg-white/20 hover:text-white"
+                      className="absolute right-4 top-4 rounded-full bg-[var(--card-bg)] p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[var(--card-hover)] hover:text-[color:var(--text-primary)]"
                     >
                       <svg
                         className="h-5 w-5"
@@ -639,16 +666,20 @@ function InterviewSetupPage() {
                       </svg>
                     </button>
                   )}
+
                 </div>
               </div>
 
               <div className="flex-1">
                 <div className="rounded-2xl border border-[#C7B8FF]/10 bg-[#C7B8FF]/5 p-4">
-                  <p className="text-sm leading-relaxed text-gray-400">
-                    <span className="font-medium text-[#C7B8FF]">
+
+                  <p className="text-sm leading-relaxed text-[color:var(--text-secondary)]">
+
+                    <span className="font-medium text-[#7C3AED]">
                       How it
                       works:
                     </span>{' '}
+
                     Our AI will
                     analyze your
                     resume to
@@ -661,7 +692,9 @@ function InterviewSetupPage() {
                     tailored to
                     your
                     experience.
+
                   </p>
+
                 </div>
               </div>
 
@@ -686,11 +719,15 @@ function InterviewSetupPage() {
                     : 'Start Resume Interview'}
                 </PrimaryButton>
               </div>
+
             </div>
+
           </GlassCard>
+
         </div>
 
         <AppFooter />
+
       </section>
     </DashboardLayout>
   )

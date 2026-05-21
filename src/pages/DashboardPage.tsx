@@ -204,7 +204,7 @@ function DashboardPage() {
                 Admin Dashboard
               </h1>
 
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-[color:var(--text-secondary)]">
                 Administrative
                 access panel.
               </p>
@@ -218,7 +218,7 @@ function DashboardPage() {
                   '/login'
                 )
               }}
-              className="rounded-full border border-red-400/20 bg-red-500/10 px-5 py-3 text-sm font-medium text-red-300 transition hover:bg-red-500/20"
+              className="rounded-full border border-red-400/20 bg-red-500/10 px-5 py-3 text-sm font-medium text-red-400 transition hover:bg-red-500/20"
             >
               Sign Out
             </button>
@@ -230,7 +230,7 @@ function DashboardPage() {
               integration pending
             </h2>
 
-            <p className="mt-3 text-sm text-gray-400">
+            <p className="mt-3 text-sm text-[color:var(--text-secondary)]">
               User dashboard
               integration is now
               fully backend
@@ -253,7 +253,7 @@ function DashboardPage() {
               Dashboard
             </h1>
 
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-[color:var(--text-secondary)]">
               Welcome back
               {user?.name
                 ? `, ${user.name}`
@@ -285,7 +285,7 @@ function DashboardPage() {
                   '/login'
                 )
               }}
-              className="rounded-full border border-red-400/20 bg-red-500/10 px-5 py-3 text-sm font-medium text-red-300 transition hover:bg-red-500/20"
+              className="rounded-full border border-red-400/20 bg-red-500/10 px-5 py-3 text-sm font-medium text-red-400 transition hover:bg-red-500/20"
             >
               Sign Out
             </button>
@@ -326,11 +326,11 @@ function DashboardPage() {
               }
               className="space-y-2 p-6"
             >
-              <p className="text-xs font-bold uppercase tracking-widest text-white/40">
+              <p className="text-xs font-bold uppercase tracking-widest text-[color:var(--text-muted)]">
                 {card.label}
               </p>
 
-              <p className="text-3xl font-semibold text-white">
+              <p className="text-3xl font-semibold text-[color:var(--text-primary)]">
                 {card.value}
               </p>
             </GlassCard>
@@ -344,7 +344,7 @@ function DashboardPage() {
             </h2>
 
             {loading && (
-              <span className="text-xs text-white/40">
+              <span className="text-xs text-[color:var(--text-muted)]">
                 Loading...
               </span>
             )}
@@ -365,16 +365,16 @@ function DashboardPage() {
                         `/interview/report?id=${item.id}`
                       )
                     }
-                    className="flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-left transition hover:bg-white/10"
+                    className="flex w-full items-center justify-between rounded-2xl border border-[var(--card-border)] bg-[var(--card-bg)] px-5 py-4 text-left transition hover:bg-[var(--card-hover)]"
                   >
                     <div className="space-y-1">
-                      <p className="font-medium text-white">
+                      <p className="font-medium text-[color:var(--text-primary)]">
                         {
                           item.role
                         }
                       </p>
 
-                      <p className="text-xs text-white/40">
+                      <p className="text-xs text-[color:var(--text-muted)]">
                         {
                           item.type
                         }
@@ -382,13 +382,13 @@ function DashboardPage() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <span className="rounded-full border border-[#C7B8FF]/20 bg-[#C7B8FF]/10 px-3 py-1 text-xs text-[#C7B8FF]">
+                      <span className="rounded-full border border-[#C7B8FF]/20 bg-[#C7B8FF]/10 px-3 py-1 text-xs text-[#7C3AED]">
                         {
                           item.status
                         }
                       </span>
 
-                      <span className="text-sm font-bold text-[#C7B8FF]">
+                      <span className="text-sm font-bold text-[#7C3AED]">
                         {
                           item.score
                         }
@@ -399,7 +399,7 @@ function DashboardPage() {
                 )
               )
             ) : (
-              <p className="py-4 text-center text-sm text-white/30">
+              <p className="py-4 text-center text-sm text-[color:var(--text-muted)]">
                 {loading
                   ? 'Loading interviews...'
                   : 'No interviews found yet.'}
@@ -428,7 +428,7 @@ function DashboardPage() {
                     }}
                   />
 
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 rounded bg-white/10 px-2 py-1 text-[10px] opacity-0 transition-opacity group-hover:opacity-100">
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 rounded bg-[var(--card-bg)] px-2 py-1 text-[10px] text-[color:var(--text-primary)] opacity-0 transition-opacity group-hover:opacity-100">
                     {v}%
                   </div>
                 </div>
@@ -436,7 +436,7 @@ function DashboardPage() {
             )}
           </div>
 
-          <div className="flex justify-between px-2 text-[10px] font-bold uppercase tracking-wider text-white/30">
+          <div className="flex justify-between px-2 text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-muted)]">
             <span>1</span>
             <span>2</span>
             <span>3</span>
